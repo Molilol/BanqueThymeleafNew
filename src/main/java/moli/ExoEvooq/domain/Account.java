@@ -50,5 +50,13 @@ public class Account {
         return montant;
     }
 
+    public int getTotalOperation() {
+        int total = 0;
+        for (Operation operation : operations) {
+            total++;
+        }
+        return total;
+    }
+
 
 }

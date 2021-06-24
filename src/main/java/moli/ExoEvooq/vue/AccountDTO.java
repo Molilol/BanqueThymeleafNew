@@ -6,7 +6,6 @@ import java.util.List;
 public class AccountDTO {
 
     String id;
-    ClientDTO clientDTO;
     String devise;
     List<OperationDTO> operationList;
     String total;
@@ -17,10 +16,6 @@ public class AccountDTO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public void setClientDTO(ClientDTO clientDTO) {
-        this.clientDTO = clientDTO;
     }
 
     public String getDevise() {
@@ -48,6 +43,10 @@ public class AccountDTO {
 
     public void setTotal(String total) {
         this.total = total;
+    }
+
+    public String getNbOperation() {
+       return String.valueOf(operationList.size());
     }
 
     public AccountDTO() {

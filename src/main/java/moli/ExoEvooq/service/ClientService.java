@@ -51,6 +51,7 @@ public class ClientService {
         return String.valueOf(montantTotalPerAccount.getMontant());
     }
 
+
 }
 
    /* public List<ClientDeployment> getDeploymentsPerClient() {

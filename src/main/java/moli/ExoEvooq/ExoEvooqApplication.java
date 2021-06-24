@@ -1,18 +1,26 @@
 package moli.ExoEvooq;
 
+import moli.ExoEvooq.domain.Operation;
 import moli.ExoEvooq.infrastructure.AccountRepoHibernate;
 import moli.ExoEvooq.infrastructure.OperationRepoHibernate;
 import moli.ExoEvooq.infrastructure.persistance.AccountEntity;
 import moli.ExoEvooq.infrastructure.persistance.ClientEntity;
 import moli.ExoEvooq.infrastructure.persistance.OperationEntity;
 import moli.ExoEvooq.service.ClientService;
+import moli.ExoEvooq.vue.AccountDTO;
+import moli.ExoEvooq.vue.ClientDTO;
+import moli.ExoEvooq.vue.OperationDTO;
+import moli.ExoEvooq.wrapper.WrapperDTOtoEntity;
+import org.hibernate.collection.internal.PersistentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -29,6 +37,8 @@ public class ExoEvooqApplication {
     AccountRepoHibernate accountRepoHibernate;
     @Autowired
     OperationRepoHibernate operationRepoHibernate;
+    @Autowired
+    WrapperDTOtoEntity wrapperDTOtoEntity;
 
     @Bean
     CommandLineRunner runner() {
@@ -57,8 +67,7 @@ public class ExoEvooqApplication {
             clientJohn.setAccounts(accountEntitySet);
             clientService.addNewClient(clientJohn);
 
-
-          /*  ClientEntity clientIvan = new ClientEntity("Ivan");
+  ClientEntity clientIvan = new ClientEntity("Ivan");
             AccountEntity accountIvan = new AccountEntity(clientIvan, "Euros");
             OperationEntity operationIvan1 = new OperationEntity();
             operationIvan1.setOperationType("DEPOSER");
@@ -78,7 +87,25 @@ public class ExoEvooqApplication {
             setAccountIvan.add(accountIvan);
 
             clientIvan.setAccounts(setAccountIvan);
-            clientService.addNewClient(clientIvan); */
+            clientService.addNewClient(clientIvan);
+
+            ClientDTO clientDTO = new ClientDTO();
+            clientDTO.setName("TestDTO");
+            List<AccountDTO> accountDTOList = new ArrayList<>();
+            AccountDTO accountDTO = new AccountDTO();
+            accountDTO.setDevise("Euros");
+            //accountDTO.setClientDTO(clientDTO);
+            List <OperationDTO> operationDTOList = new ArrayList<>();
+            OperationDTO operationDTO = new OperationDTO();
+            operationDTO.setMontant("1000");
+            operationDTO.setOperationType(Operation.OperationType.DEPOSER.name());
+            operationDTOList.add(operationDTO);
+            accountDTO.setOperationList(operationDTOList);
+            accountDTOList.add(accountDTO);
+            clientDTO.setAccountClient(accountDTOList);
+
+            clientService.addNewClient(wrapperDTOtoEntity.clientDTOtoClientEntity(clientDTO));
+
         };
 
     }

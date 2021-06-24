@@ -34,12 +34,14 @@ public class GlobalController {
 */
   @GetMapping(path = "/index")
   public ModelAndView getClientPerName() {
-      Optional<ClientEntity> client = clientRepoHibernate.findByName("John");
-      ClientEntity clientEntity = client.get();
-      ClientDTO clientDTO = wrapperEntityToDTO.clientEntityToClientDTO(clientEntity);
+      List<ClientDTO> clientDTOList = new ArrayList<>();
+      List<ClientEntity> clientEntityList = clientRepoHibernate.findAll();
+      for (ClientEntity clientEntity : clientEntityList) {
+          clientDTOList.add(wrapperEntityToDTO.clientEntityToClientDTO(clientEntity));
+      }
 
       ModelAndView modelAndView = new ModelAndView("index");
-      modelAndView.addObject("client", clientDTO);
+      modelAndView.addObject("clients", clientDTOList);
       return modelAndView;
 
   }

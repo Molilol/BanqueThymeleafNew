@@ -7,7 +7,6 @@ public class ClientDTO {
 
     String id;
     String name;
-    String totalAllAccount;
     List<AccountDTO> accountClient;
 
     public String getId() {
@@ -26,12 +25,12 @@ public class ClientDTO {
         this.name = name;
     }
 
-    public String getTotalAllAccount() {
+    public String TotalAllAccount() {
         Double calculAllTotal = 0.0;
         for (AccountDTO accountDTO : accountClient) {
             calculAllTotal += Double.parseDouble(accountDTO.getTotal());
         }
-        return this.totalAllAccount = String.valueOf(calculAllTotal);
+        return String.valueOf(calculAllTotal);
     }
 
     public List<AccountDTO> getAccountClient() {
@@ -45,12 +44,10 @@ public class ClientDTO {
         this.accountClient = accountClient;
     }
 
+    public String nbAccount() {
+        return String.valueOf(accountClient.size());
+    }
     public ClientDTO() {
     }
 
-    public ClientDTO(String id, String name, List<AccountDTO> accountClient) {
-        this.id = id;
-        this.name = name;
-        this.accountClient = accountClient;
-    }
 }
