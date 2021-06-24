@@ -9,6 +9,7 @@ import moli.ExoEvooq.vue.OperationDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -21,34 +22,49 @@ public class WrapperDTOtoEntity {
             clientEntity.setId(clientDTO.getId());
         }
         clientEntity.setName(clientDTO.getName());
-        Set<AccountEntity> accountEntitySet = new HashSet<>();
-        Set<OperationEntity> operationEntitySet = new HashSet<>();
-
-        for (AccountDTO accountDTO : clientDTO.getAccountClient()) {
-            AccountEntity accountEntity = new AccountEntity();
-            if (accountDTO.getId() != null) {
-                accountEntity.setId(accountDTO.getId());
-            }
-            accountEntity.setClient(clientEntity);
-            accountEntity.setDevise(accountDTO.getDevise());
-
-            for (OperationDTO operationDTO : accountDTO.getOperationList()) {
-                OperationEntity operationEntity = new OperationEntity();
-                if (operationDTO.getId() != null) {
-                    operationEntity.setId(operationDTO.getId());
-                }
-                operationEntity.setOperationType(operationDTO.getOperationType());
-                operationEntity.setAccount(accountEntity);
-                operationEntity.setMontant(operationDTO.getMontant());
-                operationEntitySet.add(operationEntity);
-            }
-            accountEntity.setOperations(operationEntitySet);
-            accountEntitySet.add(accountEntity);
-        }
+        Set<AccountEntity> accountEntitySet = accountDTOListToAccountSetEntity(clientDTO.getAccountClient(), clientEntity);
         clientEntity.setAccounts(accountEntitySet);
         return clientEntity;
     }
 
+    public OperationEntity operationDTOtoOperationEntity(OperationDTO operationDTO, AccountEntity accountEntity) {
+        OperationEntity operationEntity = new OperationEntity();
+        if (operationDTO.getId() != null) {
+            operationEntity.setId(operationDTO.getId());
+        }
+        operationEntity.setOperationType(operationDTO.getOperationType());
+        operationEntity.setAccount(accountEntity);
+        operationEntity.setMontant(operationDTO.getMontant());
+        return operationEntity;
+    }
 
+    public Set<OperationEntity> operationDTOListToOperationEntitySet(List<OperationDTO> operationDTOList, AccountEntity accountEntity) {
+        Set<OperationEntity> operationEntitySet = new HashSet<>();
+        for (OperationDTO operationDTO : operationDTOList) {
+            operationEntitySet.add(operationDTOtoOperationEntity(operationDTO, accountEntity));
+        }
+        return operationEntitySet;
+    }
+
+    public AccountEntity accountDTOtoAccountEntity(AccountDTO accountDTO, ClientEntity clientEntity) {
+        AccountEntity accountEntity = new AccountEntity();
+        if (accountDTO.getId() != null) {
+            accountEntity.setId(accountDTO.getId());
+        }
+        accountEntity.setClient(clientEntity);
+        accountEntity.setDevise(accountDTO.getDevise());
+        return accountEntity;
+    }
+
+    public Set<AccountEntity> accountDTOListToAccountSetEntity(List <AccountDTO> accountDTOList, ClientEntity clientEntity) {
+        Set<AccountEntity> accountEntitySet = new HashSet<>();
+        for (AccountDTO accountDTO : accountDTOList) {
+            AccountEntity accountEntity = accountDTOtoAccountEntity(accountDTO, clientEntity);
+            Set<OperationEntity> operationEntitySet = operationDTOListToOperationEntitySet(accountDTO.getOperationList(), accountEntity);
+            accountEntity.setOperations(operationEntitySet);
+            accountEntitySet.add(accountEntity);
+        }
+        return accountEntitySet;
+    }
 
 }
