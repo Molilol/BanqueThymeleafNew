@@ -1,0 +1,17 @@
+{
+  "name": "IvanTest",
+  "accountList": [
+    {
+      "devise": "euros",
+      "operations": [
+        {
+          "operationType": "DEPOSER",
+          "montant": {
+            "montant": 200.0,
+            "devise": "euros"
+          }
+        }
+      ]
+    }
+  ]
+}

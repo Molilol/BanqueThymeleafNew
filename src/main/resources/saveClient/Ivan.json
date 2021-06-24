@@ -1,0 +1,43 @@
+{
+  "name": "Ivan",
+  "accountList": [
+    {
+      "devise": "euros",
+      "operations": [
+        {
+          "operationType": "DEPOSER",
+          "montant": {
+            "montant": 100.0,
+            "devise": "euros"
+          }
+        },
+        {
+          "operationType": "DEPOSER",
+          "montant": {
+            "montant": 200.0,
+            "devise": "euros"
+          }
+        }
+      ]
+    },
+    {
+      "devise": "euros",
+      "operations": [
+        {
+          "operationType": "DEPOSER",
+          "montant": {
+            "montant": 400.0,
+            "devise": "euros"
+          }
+        },
+        {
+          "operationType": "DEPOSER",
+          "montant": {
+            "montant": 300.0,
+            "devise": "euros"
+          }
+        }
+      ]
+    }
+  ]
+}

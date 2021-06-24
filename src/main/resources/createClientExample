@@ -1,0 +1,70 @@
+{
+  "clientName": "Test1",
+  "devise": "Euro",
+  "typeOperation": "DEPOSER",
+  "operationMontant": "500"
+}
+
+{
+  "clientName": "Test2",
+  "devise": "Euro",
+  "typeOperation": "DEPOSER",
+  "operationMontant": "3000",
+  "typeOperation": "DEPOSER",
+  "operationMontant": "4000"
+}
+
+{
+  "name": "Test3",
+  "accountClient": "Euros"
+}
+
+{
+  "name": "testPlus2",
+  "accounts": [
+    {
+      "client": {
+        "client_id": "46015c1b-9fa2-462f-8f5e-bc7d0c1ffceb"
+      },
+      "devise": "euros",
+      "operations": [
+        {
+          "operationType": "DEPOSER",
+          "montant": 200.0
+        }
+      ]
+    }
+  ]
+}
+
+{
+  "name": "Johntest",
+  "accountClient": [
+    {
+      "devise": "Euros",
+      "operationList": [
+        {
+          "operationType": "DEPOSER",
+          "montant": "3000"
+        },
+        {
+          "operationType": "DEPOSER",
+          "montant": "2000"
+        }
+      ]
+    },
+    {
+      "devise": "Euros",
+      "operationList": [
+        {
+          "operationType": "DEPOSER",
+          "montant": "10000"
+        },
+        {
+          "operationType": "DEPOSER",
+          "montant": "5000"
+        }
+      ]
+    }
+  ]
+}
