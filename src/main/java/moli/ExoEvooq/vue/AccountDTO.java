@@ -1,5 +1,9 @@
 package moli.ExoEvooq.vue;
 
+import moli.ExoEvooq.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +12,8 @@ public class AccountDTO {
     String id;
     String devise;
     List<OperationDTO> operationList;
-    String total;
+    Double total;
+    LocalDateTime date;
 
     public String getId() {
         return id;
@@ -37,16 +42,24 @@ public class AccountDTO {
         this.operationList = operationList;
     }
 
-    public String getTotal() {
+    public String getNbOperation() {
+       return String.valueOf(operationList.size());
+    }
+
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 
-    public String getNbOperation() {
-       return String.valueOf(operationList.size());
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public AccountDTO() {

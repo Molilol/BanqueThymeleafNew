@@ -1,10 +1,13 @@
 package moli.ExoEvooq.infrastructure;
 
+import moli.ExoEvooq.domain.Client;
 import moli.ExoEvooq.infrastructure.persistance.ClientEntity;
 import moli.ExoEvooq.service.ClientService;
 import moli.ExoEvooq.vue.ClientDTO;
 import moli.ExoEvooq.wrapper.WrapperDTOtoEntity;
+import moli.ExoEvooq.wrapper.WrapperDomainToDTO;
 import moli.ExoEvooq.wrapper.WrapperEntityToDTO;
+import moli.ExoEvooq.wrapper.WrapperEntityToDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,10 @@ public class GlobalController {
     private WrapperDTOtoEntity wrapperDTOtoEntity;
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private WrapperEntityToDomain wrapperEntityToDomain;
+    @Autowired
+    private WrapperDomainToDTO wrapperDomainToDTO;
 
 
   /*  @GetMapping("/accueil")
@@ -33,8 +40,8 @@ public class GlobalController {
     }
 */
   @GetMapping(path = "/index")
-  public ModelAndView getClientPerName() {
-      List<ClientDTO> clientDTOList = new ArrayList<>();
+  public ModelAndView getAllClient() {
+     /* List<ClientDTO> clientDTOList = new ArrayList<>();
       List<ClientEntity> clientEntityList = clientRepoHibernate.findAll();
       for (ClientEntity clientEntity : clientEntityList) {
           clientDTOList.add(wrapperEntityToDTO.clientEntityToClientDTO(clientEntity));
@@ -43,30 +50,49 @@ public class GlobalController {
       ModelAndView modelAndView = new ModelAndView("index");
       modelAndView.addObject("clients", clientDTOList);
       return modelAndView;
+ */
+      List<ClientEntity> clientEntityList = clientRepoHibernate.findAll();
+      List<Client> clients = new ArrayList<>();
+      for (ClientEntity clientEntity : clientEntityList){
+          clients.add(wrapperEntityToDomain.ClientEntityToDomain(clientEntity));
+      }
+      List<ClientDTO> clientDTOList = new ArrayList<>();
+
+      for (Client client : clients) {
+          clientDTOList.add(wrapperDomainToDTO.clientDomainToClientDTO(client));
+      }
+      ModelAndView modelAndView = new ModelAndView("index");
+      modelAndView.addObject("clients", clientDTOList);
+      return modelAndView;
 
   }
+
+
 
     @GetMapping(path = "/clients")
     public ModelAndView getClients() {
         List<ClientDTO> clientDTOList = new ArrayList<>();
         List<ClientEntity> clientEntityList = clientRepoHibernate.findAll();
         for (ClientEntity clientEntity : clientEntityList) {
-            clientDTOList.add(wrapperEntityToDTO.clientEntityToClientDTO(clientEntity));
+            ClientDTO clientDTO = wrapperEntityToDTO.clientEntityToClientDTO(clientEntity);
+            clientDTOList.add(clientDTO);
         }
-
         ModelAndView modelAndView = new ModelAndView("clients");
         modelAndView.addObject("clients", clientDTOList);
         return modelAndView;
        // return clientDTOList;
     }
 
-    @GetMapping(path = "clients/{name}")
-    public ModelAndView getClientPerName(@PathVariable String name) {
-        Optional<ClientEntity> client = clientRepoHibernate.findByName(name);
-        ClientEntity clientEntity = client.get();
-        ClientDTO clientDTO = wrapperEntityToDTO.clientEntityToClientDTO(clientEntity);
+    @GetMapping(path = "/{userId}")
+    public ModelAndView getClientPerName(@PathVariable String userId) {
+        Optional<ClientEntity> clientEntityOp = clientRepoHibernate.findById(userId);
+        ClientEntity clientEntity = clientEntityOp.get();
+        Client client = wrapperEntityToDomain.ClientEntityToDomain(clientEntity);
 
-        ModelAndView modelAndView = new ModelAndView("Choix");
+
+
+        ClientDTO clientDTO = wrapperDomainToDTO.clientDomainToClientDTO(client);
+        ModelAndView modelAndView = new ModelAndView("choix");
         modelAndView.addObject("client", clientDTO);
         return modelAndView;
 

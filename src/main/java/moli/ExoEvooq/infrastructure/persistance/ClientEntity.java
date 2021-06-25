@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ public class ClientEntity {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<AccountEntity> accounts = new HashSet<>();
+
+    private LocalDateTime date;
 
     public ClientEntity() {
     }

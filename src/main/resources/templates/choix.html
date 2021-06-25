@@ -72,10 +72,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)
+                                    SYNTHESE
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><div th:text="${client.TotalAllAccount}"/></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -164,9 +163,9 @@
                 ID which will toggle the menu when clicked.
             </p>
         </div>
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" th:each="account: ${client.accountClient}">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                <h6 class="m-0 font-weight-bold text-primary"><div th:text="${account.total}"/></h6>
             </div>
             <div class="card-body">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -186,12 +185,11 @@
                             <th>Date inscription</th>
                         </tr>
                         </tfoot>
-                        <tbody>
-                        <tr th:each="client: ${clients}">
-                            <td><a th:href="@{'/' + ${client.id}}"><div th:text="${client.name}"/></a></td>
-                            <td><div th:text="${client.TotalAllAccount}"/></td>
-                            <td><div th:text="${client.nbAccount}"/></td>
-                            <td><div th:text="${client.date}"/></td>
+                        <tbody th:each="operation: ${account.operationList}">
+                        <tr>
+                            <td><div th:text="${operation.id}"/></td>
+                            <td><div th:text="${operation.operationType}"/></td>
+                            <td><div th:text="${operation.montant}"/></td>
                         </tr>
 
 

@@ -1,5 +1,7 @@
 package moli.ExoEvooq.vue;
 
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ public class ClientDTO {
     String id;
     String name;
     List<AccountDTO> accountClient;
+    LocalDateTime date;
 
     public String getId() {
         return id;
@@ -25,12 +28,14 @@ public class ClientDTO {
         this.name = name;
     }
 
-    public String TotalAllAccount() {
+   public String TotalAllAccount() {
         Double calculAllTotal = 0.0;
         for (AccountDTO accountDTO : accountClient) {
-            calculAllTotal += Double.parseDouble(accountDTO.getTotal());
+            calculAllTotal += accountDTO.getTotal();
         }
-        return String.valueOf(calculAllTotal);
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+
+        return formatter.format(calculAllTotal);
     }
 
     public List<AccountDTO> getAccountClient() {
@@ -47,6 +52,15 @@ public class ClientDTO {
     public String nbAccount() {
         return String.valueOf(accountClient.size());
     }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
     public ClientDTO() {
     }
 

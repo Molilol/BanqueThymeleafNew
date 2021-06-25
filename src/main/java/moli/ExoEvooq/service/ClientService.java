@@ -7,6 +7,9 @@ import moli.ExoEvooq.infrastructure.ClientRepoHibernate;
 import moli.ExoEvooq.infrastructure.persistance.AccountEntity;
 import moli.ExoEvooq.infrastructure.persistance.ClientEntity;
 import moli.ExoEvooq.infrastructure.persistance.OperationEntity;
+import moli.ExoEvooq.wrapper.WrapperDTOtoEntity;
+import moli.ExoEvooq.wrapper.WrapperEntityToDTO;
+import moli.ExoEvooq.wrapper.WrapperEntityToDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class ClientService {
     @Autowired
     ClientRepoHibernate clientRepoHibernate;
 
+
     @Transactional
     public void addNewClient(ClientEntity client) {
         Optional<ClientEntity> clientByName = clientRepoHibernate.findByName(client.getName());
@@ -31,13 +35,11 @@ public class ClientService {
         }
     }
 
-
-
     public String totalAccount(AccountEntity accountEntity) {
         List<Operation> operations = new ArrayList<>();
         for (OperationEntity operationEntity : accountEntity.getOperations()) {
             Montant montant = new Montant(
-                    Double.parseDouble(operationEntity.getMontant()),
+                    operationEntity.getMontant(),
                     accountEntity.getDevise());
             Operation operation = new Operation(
                     Operation.OperationType.valueOf(operationEntity.getOperationType()),

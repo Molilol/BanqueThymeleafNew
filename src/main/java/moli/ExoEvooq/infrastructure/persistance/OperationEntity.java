@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "OPERATIONS")
@@ -23,7 +24,9 @@ public class OperationEntity {
     @ManyToOne
     private AccountEntity account;
 
-    private String montant;
+    private Double montant;
+
+    private LocalDateTime date;
 
     public OperationEntity() {
     }

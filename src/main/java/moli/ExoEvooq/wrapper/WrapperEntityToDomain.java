@@ -16,31 +16,46 @@ import java.util.List;
 public class WrapperEntityToDomain {
 
     public Client ClientEntityToDomain(ClientEntity clientEntity) {
-        List<Operation> operationList = new ArrayList<>();
         List<Account> accountList = new ArrayList<>();
         for (AccountEntity accountEntity : clientEntity.getAccounts()) {
-            for (OperationEntity operationEntity : accountEntity.getOperations()) {
-                Montant montant = new Montant(
-                        Double.parseDouble(operationEntity.getMontant()),
-                        accountEntity.getDevise());
-                Operation operation = new Operation(
-                        operationEntity.getId(),
-                        Operation.OperationType.valueOf(operationEntity.getOperationType()),
-                        montant);
-                operationList.add(operation);
-            }
-            Account account = new Account(
-                    accountEntity.getId(),
-                    clientEntity.getId(),
-                    accountEntity.getDevise(),
-                    operationList);
-            accountList.add(account);
+            accountList.add(accountEntityToAccountDomain(accountEntity, clientEntity));
         }
         Client client = new Client(
                 clientEntity.getId(),
                 clientEntity.getName(),
-                accountList);
+                accountList,
+                clientEntity.getDate());
         return client;
+    }
+
+    public Account accountEntityToAccountDomain(AccountEntity accountEntity, ClientEntity clientEntity) {
+        List<Operation> operations = new ArrayList<>();
+        for (OperationEntity operationEntity : accountEntity.getOperations()) {
+            operations.add(operationEntityToOperationDomain(operationEntity, accountEntity));
+        }
+        Account account = new Account(
+                accountEntity.getId(),
+                clientEntity.getId(),
+                accountEntity.getDevise(),
+                operations,
+                accountEntity.getDate()
+        );
+        return account;
+    }
+
+    public Operation operationEntityToOperationDomain(OperationEntity operationEntity, AccountEntity accountEntity) {
+        Montant montant = new Montant(
+                operationEntity.getMontant(),
+                accountEntity.getDevise()
+        );
+        Operation operation = new Operation(
+                operationEntity.getId(),
+                Operation.OperationType.valueOf(operationEntity.getOperationType()),
+                montant,
+                operationEntity.getDate()
+        );
+
+        return operation;
     }
 
 

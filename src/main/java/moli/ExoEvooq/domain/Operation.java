@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @EqualsAndHashCode(of = "id")
 @Data
@@ -24,15 +25,19 @@ public class Operation {
     @NotNull
     private Montant montant;
 
+    @NotNull
+    private LocalDateTime date;
+
     public Operation(OperationType operationType, Montant montant) {
         this.operationType = operationType;
         this.montant = montant;
     }
 
-    public Operation(String id, OperationType operationType, Montant montant) {
+    public Operation(String id, OperationType operationType, Montant montant, LocalDateTime date) {
         this.id = id;
         this.operationType = operationType;
         this.montant = montant;
+        this.date = date;
     }
 
     public Montant appliquerOperation(Montant montantCourant) {

@@ -8,6 +8,8 @@ import moli.ExoEvooq.vue.ClientDTO;
 import moli.ExoEvooq.vue.OperationDTO;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,11 @@ public class WrapperDTOtoEntity {
             clientEntity.setId(clientDTO.getId());
         }
         clientEntity.setName(clientDTO.getName());
+        if (clientEntity.getDate() == null){
+            clientEntity.setDate(clientDTO.getDate());
+        } else {
+
+        }
         Set<AccountEntity> accountEntitySet = accountDTOListToAccountSetEntity(clientDTO.getAccountClient(), clientEntity);
         clientEntity.setAccounts(accountEntitySet);
         return clientEntity;
@@ -35,6 +42,7 @@ public class WrapperDTOtoEntity {
         operationEntity.setOperationType(operationDTO.getOperationType());
         operationEntity.setAccount(accountEntity);
         operationEntity.setMontant(operationDTO.getMontant());
+        operationEntity.setDate(operationDTO.getDate());
         return operationEntity;
     }
 
@@ -53,6 +61,7 @@ public class WrapperDTOtoEntity {
         }
         accountEntity.setClient(clientEntity);
         accountEntity.setDevise(accountDTO.getDevise());
+        accountEntity.setDate(accountDTO.getDate());
         return accountEntity;
     }
 

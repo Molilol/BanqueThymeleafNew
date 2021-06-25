@@ -1,6 +1,5 @@
 package moli.ExoEvooq.wrapper;
 
-import moli.ExoEvooq.domain.Account;
 import moli.ExoEvooq.infrastructure.persistance.AccountEntity;
 import moli.ExoEvooq.infrastructure.persistance.ClientEntity;
 import moli.ExoEvooq.infrastructure.persistance.OperationEntity;
@@ -18,12 +17,11 @@ import java.util.Set;
 @Component
 public class WrapperEntityToDTO {
 
-    @Autowired
-    ClientService clientService;
-
     public ClientDTO clientEntityToClientDTO(ClientEntity clientEntity) {
         ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setId(clientEntity.getId());
         clientDTO.setName(clientEntity.getName());
+        clientDTO.setDate(clientEntity.getDate());
         List<AccountDTO> accountDTOList = accountEntitySetToAccountDTOList(clientEntity.getAccounts());
         clientDTO.setAccountClient(accountDTOList);
         return clientDTO;
@@ -31,8 +29,10 @@ public class WrapperEntityToDTO {
 
     public AccountDTO accountEntityToAccountDTO(AccountEntity accountEntity) {
         AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(accountEntity.getId());
         accountDTO.setDevise(accountEntity.getDevise());
-        accountDTO.setTotal(clientService.totalAccount(accountEntity));
+        accountDTO.setDate(accountEntity.getDate());
+        //accountDTO.setTotal(clientService.totalAccount(accountEntity));
         return accountDTO;
     }
 
@@ -48,8 +48,10 @@ public class WrapperEntityToDTO {
 
     public OperationDTO operationEntityToOperationDTO(OperationEntity operationEntity) {
         OperationDTO operationDTO = new OperationDTO();
+        operationDTO.setId(operationEntity.getId());
         operationDTO.setOperationType(operationEntity.getOperationType());
         operationDTO.setMontant(operationEntity.getMontant());
+        operationDTO.setDate(operationEntity.getDate());
         return operationDTO;
     }
 

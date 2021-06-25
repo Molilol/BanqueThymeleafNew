@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,21 +25,24 @@ public class Account {
     @NotNull
     private List<@NotNull @Valid Operation> operations;
 
+    @NotBlank
+    private LocalDateTime date;
+
 
     public Account(String devise, List<@NotNull @Valid Operation> operations) {
         this.devise = devise;
         this.operations = operations;
     }
 
-    public Account(String id, String clientId, String devise, List<@NotNull @Valid Operation> operations) {
+    public Account(String id, String clientId, String devise, List<@NotNull @Valid Operation> operations, LocalDateTime date) {
         this.id = id;
         this.clientId = clientId;
         this.devise = devise;
         this.operations = operations;
+        this.date = date;
     }
 
     public Montant getTotal() {
-
         Montant montant = new Montant(0.0, devise);
 
         for (Operation operation : this.operations) {
@@ -48,14 +52,6 @@ public class Account {
         }
 
         return montant;
-    }
-
-    public int getTotalOperation() {
-        int total = 0;
-        for (Operation operation : operations) {
-            total++;
-        }
-        return total;
     }
 
 
