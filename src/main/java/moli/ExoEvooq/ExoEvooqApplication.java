@@ -99,12 +99,15 @@ public class ExoEvooqApplication {
           //  clientIvan.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
             clientIvan.setDate(LocalDateTime.now());
             AccountEntity accountIvan = new AccountEntity(clientIvan, "Euros");
+            accountIvan.setDate(LocalDateTime.now());
             OperationEntity operationIvan1 = new OperationEntity();
             operationIvan1.setOperationType("DEPOSER");
             operationIvan1.setMontant(10000.0);
+            operationIvan1.setDate(LocalDateTime.now());
             OperationEntity operationIvan2 = new OperationEntity();
             operationIvan2.setOperationType("DEPOSER");
             operationIvan2.setMontant(5000.0);
+            operationIvan2.setDate(LocalDateTime.now());
             operationIvan1.setAccount(accountIvan);
             operationIvan2.setAccount(accountIvan);
 

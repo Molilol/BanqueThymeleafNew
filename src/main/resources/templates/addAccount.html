@@ -11,7 +11,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet"/>
+    <link href="../css/styles.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="d-flex" id="wrapper">
@@ -20,7 +20,8 @@
         <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="../createClient">Shortcuts</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3"
+               href="../createClient">Shortcuts</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
@@ -55,42 +56,18 @@
                 </div>
             </div>
         </nav>
-
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <a button class="btn btn-primary" href="../createClient">Ajouter Client</a>
+                <h6 class="m-0 font-weight-bold text-primary">Création client</h6>
             </div>
+            <form action="../addAccount" method="post" class="table" name="userCreateDTO">
+                <input type="hidden" th:value="${clientIdSend}" name="clientId" />
+                  <p><label>Somme </label>
+                      <input type="number" name="somme" id="somme" required>
+                  </p>
+                <p> <input class="btn btn-primary" type="submit" value="Créer"></p>
+            </form>
 
-            <div class="card-body">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Synthèse</th>
-                            <th>Compte</th>
-                            <th>Date inscription</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Synthèse</th>
-                            <th>Compte</th>
-                            <th>Date inscription</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        <tr th:each="client: ${clients}">
-                            <td><a th:href="@{'/clients/' + ${client.id}}"><div th:text="${client.name}"/></a></td>
-                            <td><div th:text="${client.TotalAllAccount}"/></td>
-                            <td><div th:text="${client.nbAccount}"/></td>
-                            <td><div th:text="${client.dateFormat}"/></td>
-                        </tr>
-
-
-                        </tbody>
-                    </table>
-            </div>
         </div>
     </div>
 </div>

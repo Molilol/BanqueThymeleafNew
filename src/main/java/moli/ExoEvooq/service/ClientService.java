@@ -25,6 +25,8 @@ public class ClientService {
 
     @Autowired
     ClientRepoHibernate clientRepoHibernate;
+    @Autowired
+    WrapperEntityToDomain wrapperEntityToDomain;
 
 
     @Transactional
@@ -53,6 +55,11 @@ public class ClientService {
         return String.valueOf(montantTotalPerAccount.getMontant());
     }
 
+    public Account accountEntityToAccountDomain(AccountEntity accountEntity) {
+        ClientEntity clientEntity = clientRepoHibernate.findById(accountEntity.getClient().getId()).get();
+        Account account = wrapperEntityToDomain.accountEntityToAccountDomain(accountEntity, clientEntity);
+        return account;
+    }
 
 }
 

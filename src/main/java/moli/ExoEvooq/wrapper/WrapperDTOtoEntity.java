@@ -62,6 +62,7 @@ public class WrapperDTOtoEntity {
         accountEntity.setClient(clientEntity);
         accountEntity.setDevise(accountDTO.getDevise());
         accountEntity.setDate(accountDTO.getDate());
+        accountEntity.setOperations(operationDTOListToOperationEntitySet(accountDTO.getOperationList(), accountEntity));
         return accountEntity;
     }
 
