@@ -2,6 +2,7 @@ package moli.ExoEvooq.vue;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,26 @@ public class ClientDTO {
         return date;
     }
 
+    public String dateFormat() {
+        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    }
+
+    public int nbOperation (){
+        int nbOperation = 0;
+        for (AccountDTO accountDTO : this.accountClient) {
+           nbOperation += accountDTO.getNbOperation();
+        }
+        return nbOperation;
+    }
+
     public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public ClientDTO(String id, String name, List<AccountDTO> accountClient, LocalDateTime date) {
+        this.id = id;
+        this.name = name;
+        this.accountClient = accountClient;
         this.date = date;
     }
 

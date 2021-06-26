@@ -74,7 +74,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     SYNTHESE
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><div th:text="${client.TotalAllAccount}"/></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -141,7 +141,7 @@
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Nombre d'opération
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><div th:text="${client.nbOperation}"/></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><div th:text="${account.getNbOperation}"/></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -156,26 +156,22 @@
                 <h6 class="m-0 font-weight-bold text-primary">Liste des comptes</h6>
             </div>
             <div class="card-body">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:each="account: ${client.accountClient}">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:each="operation: ${account.operationList}">
                         <thead>
                         <tr>
-                            <th>Compte N°</th>
-                            <th>Synthèse</th>
-                            <th>Devise</th>
-                            <th>Date création</th>
-                            <th>Nombre d'opération</th>
+                            <th>Operation N°</th>
+                            <th>Type</th>
+                            <th>Montant</th>
+                            <th>Date</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td><a th:href="@{'../account/' + ${account.id}}"> <div th:text="${account.id}"/></a></td>
-                            <td><div th:text="${account.total}"/></td>
-                            <td><div th:text="${account.devise}"/></td>
-                            <td><div th:text="${account.dateFormat}"/></td>
-                            <td><div th:text="${account.getNbOperation}"/></td>
+                            <td><div th:text="${operation.id}"/></td>
+                            <td><div th:text="${operation.operationType}"/></td>
+                            <td><div th:text="${operation.montant}"/></td>
+                            <td><div th:text="${operation.dateFormat}"/></td>
                         </tr>
-
-
                         </tbody>
                     </table>
             </div>

@@ -15,39 +15,39 @@ import java.util.List;
 public class WrapperDomainToDTO {
 
     public OperationDTO operationDomainToOperationDTO (Operation operation) {
-        OperationDTO operationDTO = new OperationDTO();
-        operationDTO.setId(operation.getId());
-        operationDTO.setOperationType(String.valueOf(operation.getOperationType()));
-        operationDTO.setMontant(operation.getMontant().getMontant());
-        operationDTO.setDate(operation.getDate());
-        return operationDTO;
+        return new OperationDTO(
+                operation.getId(),
+                String.valueOf(operation.getOperationType()),
+                operation.getMontant().getMontant(),
+                operation.getDate()
+                );
     }
 
     public AccountDTO accountDomainToAccountDTO (Account account) {
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(accountDTO.getId());
-        accountDTO.setDevise(account.getDevise());
         List<OperationDTO> operationDTOList = new ArrayList<>();
         for (Operation operation : account.getOperations()) {
             operationDTOList.add(operationDomainToOperationDTO(operation));
         }
-        accountDTO.setOperationList(operationDTOList);
-        accountDTO.setTotal(account.getTotal().getMontant());
-        accountDTO.setDate(account.getDate());
-        return accountDTO;
+        return new AccountDTO(
+                account.getId(),
+                account.getDevise(),
+                operationDTOList,
+                account.getTotal().getMontant(),
+                account.getDate()
+        );
     }
 
     public ClientDTO clientDomainToClientDTO (Client client) {
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setId(client.getId());
-        clientDTO.setName(client.getName());
         List <AccountDTO> accountDTOList = new ArrayList<>();
         for (Account account : client.getAccountList()) {
             accountDTOList.add(accountDomainToAccountDTO(account));
         }
-        clientDTO.setAccountClient(accountDTOList);
-        clientDTO.setDate(client.getDate());
-        return clientDTO;
+        return new ClientDTO(
+                client.getId(),
+                client.getName(),
+                accountDTOList,
+                client.getDate()
+        );
     }
 
 }

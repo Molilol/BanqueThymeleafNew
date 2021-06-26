@@ -4,6 +4,7 @@ import moli.ExoEvooq.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class AccountDTO {
         this.operationList = operationList;
     }
 
-    public String getNbOperation() {
-       return String.valueOf(operationList.size());
+    public int getNbOperation() {
+       return operationList.size();
     }
 
     public Double getTotal() {
@@ -59,6 +60,18 @@ public class AccountDTO {
     }
 
     public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String dateFormat() {
+        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    }
+
+    public AccountDTO(String id, String devise, List<OperationDTO> operationList, Double total, LocalDateTime date) {
+        this.id = id;
+        this.devise = devise;
+        this.operationList = operationList;
+        this.total = total;
         this.date = date;
     }
 

@@ -1,6 +1,7 @@
 package moli.ExoEvooq.vue;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class OperationDTO {
 
@@ -41,15 +42,15 @@ public class OperationDTO {
         this.date = date;
     }
 
-    public OperationDTO(String id, String operationType, Double montant) {
+    public String dateFormat() {
+        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    }
+
+    public OperationDTO(String id, String operationType, Double montant, LocalDateTime date) {
         this.id = id;
         this.operationType = operationType;
         this.montant = montant;
-    }
-
-    public OperationDTO(String operationType, Double montant) {
-        this.operationType = operationType;
-        this.montant = montant;
+        this.date = date;
     }
 
     public OperationDTO() {

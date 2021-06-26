@@ -1,8 +1,10 @@
 package moli.ExoEvooq.infrastructure;
 
 import moli.ExoEvooq.domain.Client;
+import moli.ExoEvooq.infrastructure.persistance.AccountEntity;
 import moli.ExoEvooq.infrastructure.persistance.ClientEntity;
 import moli.ExoEvooq.service.ClientService;
+import moli.ExoEvooq.vue.AccountDTO;
 import moli.ExoEvooq.vue.ClientDTO;
 import moli.ExoEvooq.wrapper.WrapperDTOtoEntity;
 import moli.ExoEvooq.wrapper.WrapperDomainToDTO;
@@ -32,6 +34,8 @@ public class GlobalController {
     private WrapperEntityToDomain wrapperEntityToDomain;
     @Autowired
     private WrapperDomainToDTO wrapperDomainToDTO;
+    @Autowired
+    private AccountRepoHibernate accountRepoHibernate;
 
 
   /*  @GetMapping("/accueil")
@@ -83,17 +87,42 @@ public class GlobalController {
        // return clientDTOList;
     }
 
-    @GetMapping(path = "/{userId}")
-    public ModelAndView getClientPerName(@PathVariable String userId) {
+    @GetMapping(path = "clients/{userId}")
+    public ModelAndView getClientPerId(@PathVariable String userId) {
         Optional<ClientEntity> clientEntityOp = clientRepoHibernate.findById(userId);
         ClientEntity clientEntity = clientEntityOp.get();
         Client client = wrapperEntityToDomain.ClientEntityToDomain(clientEntity);
-
-
-
         ClientDTO clientDTO = wrapperDomainToDTO.clientDomainToClientDTO(client);
         ModelAndView modelAndView = new ModelAndView("choix");
         modelAndView.addObject("client", clientDTO);
+        return modelAndView;
+
+    }
+
+    @GetMapping(path = "account/{accountId}")
+    public ModelAndView getAccountById(@PathVariable String accountId) {
+        AccountEntity accountEntity = accountRepoHibernate.findById(accountId).get();
+        AccountDTO accountDTO = wrapperEntityToDTO.accountEntityToAccountDTO(accountEntity);
+        ModelAndView modelAndView = new ModelAndView("account");
+        modelAndView.addObject("account", accountDTO);
+        return modelAndView;
+
+    }
+
+    @GetMapping(path = "operation/{userId}")
+    public ModelAndView getOperationPage(@PathVariable String userId) {
+        Optional<ClientEntity> clientEntityOp = clientRepoHibernate.findById(userId);
+        ClientEntity clientEntity = clientEntityOp.get();
+        Client client = wrapperEntityToDomain.ClientEntityToDomain(clientEntity);
+        ClientDTO clientDTO = wrapperDomainToDTO.clientDomainToClientDTO(client);
+        ModelAndView modelAndView = new ModelAndView("operation");
+        modelAndView.addObject("client", clientDTO);
+        return modelAndView;
+    }
+
+    @GetMapping(path = "operation")
+    public ModelAndView getOperation() {
+        ModelAndView modelAndView = new ModelAndView("operation");
         return modelAndView;
 
     }

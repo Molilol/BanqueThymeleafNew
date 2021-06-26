@@ -32,7 +32,7 @@ public class WrapperEntityToDTO {
         accountDTO.setId(accountEntity.getId());
         accountDTO.setDevise(accountEntity.getDevise());
         accountDTO.setDate(accountEntity.getDate());
-        //accountDTO.setTotal(clientService.totalAccount(accountEntity));
+        accountDTO.setOperationList(operationEntitySetToOperationDTOList(accountEntity.getOperations()));
         return accountDTO;
     }
 
@@ -47,12 +47,12 @@ public class WrapperEntityToDTO {
     }
 
     public OperationDTO operationEntityToOperationDTO(OperationEntity operationEntity) {
-        OperationDTO operationDTO = new OperationDTO();
-        operationDTO.setId(operationEntity.getId());
-        operationDTO.setOperationType(operationEntity.getOperationType());
-        operationDTO.setMontant(operationEntity.getMontant());
-        operationDTO.setDate(operationEntity.getDate());
-        return operationDTO;
+        return new OperationDTO(
+                operationEntity.getId(),
+                operationEntity.getOperationType(),
+                operationEntity.getMontant(),
+                operationEntity.getDate()
+                );
     }
 
     public List<OperationDTO> operationEntitySetToOperationDTOList(Set<OperationEntity> operationEntityList) {
