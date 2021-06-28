@@ -44,7 +44,7 @@ public class ClientService {
         }
     }
 
-    public String totalAccount(AccountEntity accountEntity) {
+ /*   public String totalAccount(AccountEntity accountEntity) {
         List<Operation> operations = new ArrayList<>();
         for (OperationEntity operationEntity : accountEntity.getOperations()) {
             Montant montant = new Montant(
@@ -60,7 +60,7 @@ public class ClientService {
                 operations);
         Montant montantTotalPerAccount = account.getTotal();
         return String.valueOf(montantTotalPerAccount.getMontant());
-    }
+    } */
 
     public String syntheseTotalAllClients(List<ClientDTO> clientDTOList) {
         double syntheseTotalAllClients = 0.0;
