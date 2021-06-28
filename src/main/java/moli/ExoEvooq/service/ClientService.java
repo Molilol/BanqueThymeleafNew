@@ -7,14 +7,19 @@ import moli.ExoEvooq.infrastructure.ClientRepoHibernate;
 import moli.ExoEvooq.infrastructure.persistance.AccountEntity;
 import moli.ExoEvooq.infrastructure.persistance.ClientEntity;
 import moli.ExoEvooq.infrastructure.persistance.OperationEntity;
+import moli.ExoEvooq.vue.AccountDTO;
+import moli.ExoEvooq.vue.ClientDTO;
+import moli.ExoEvooq.vue.OperationDTO;
+import moli.ExoEvooq.vue.UserCreateDTO;
 import moli.ExoEvooq.wrapper.WrapperDTOtoEntity;
-import moli.ExoEvooq.wrapper.WrapperEntityToDTO;
 import moli.ExoEvooq.wrapper.WrapperEntityToDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +32,8 @@ public class ClientService {
     ClientRepoHibernate clientRepoHibernate;
     @Autowired
     WrapperEntityToDomain wrapperEntityToDomain;
+    @Autowired
+    WrapperDTOtoEntity wrapperDTOtoEntity;
 
 
     @Transactional
@@ -55,12 +62,48 @@ public class ClientService {
         return String.valueOf(montantTotalPerAccount.getMontant());
     }
 
+    public String syntheseTotalAllClients(List<ClientDTO> clientDTOList) {
+        double syntheseTotalAllClients = 0.0;
+        for (ClientDTO clientDTO : clientDTOList) {
+            syntheseTotalAllClients += clientDTO.totalAllAccount();
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(syntheseTotalAllClients);
+    }
+
     public Account accountEntityToAccountDomain(AccountEntity accountEntity) {
         ClientEntity clientEntity = clientRepoHibernate.findById(accountEntity.getClient().getId()).get();
         Account account = wrapperEntityToDomain.accountEntityToAccountDomain(accountEntity, clientEntity);
         return account;
     }
 
+    public String nbAccountAllClients(List<ClientDTO> clientDTOList) {
+        int nbAccountAllClients = 0;
+        for (ClientDTO clientDTO : clientDTOList) {
+            nbAccountAllClients += clientDTO.getAccountClient().size();
+        }
+        return String.valueOf(nbAccountAllClients);
+    }
+
+    public void createUser(UserCreateDTO userCreateDTO) {
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setName(userCreateDTO.getName());
+        clientDTO.setDate(LocalDateTime.now());
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setDevise("Euros");
+        accountDTO.setDate(LocalDateTime.now());
+        OperationDTO operationDTO = new OperationDTO();
+        operationDTO.setOperationType("DEPOSER");
+        operationDTO.setMontant(userCreateDTO.getMontant());
+        operationDTO.setDate(LocalDateTime.now());
+        List<OperationDTO> operationDTOList = new ArrayList<>();
+        operationDTOList.add(operationDTO);
+        accountDTO.setOperationList(operationDTOList);
+        List<AccountDTO> accountDTOList = new ArrayList<>();
+        accountDTOList.add(accountDTO);
+        clientDTO.setAccountClient(accountDTOList);
+        addNewClient(wrapperDTOtoEntity.clientDTOtoClientEntity(clientDTO));
+    }
 }
 
    /* public List<ClientDeployment> getDeploymentsPerClient() {

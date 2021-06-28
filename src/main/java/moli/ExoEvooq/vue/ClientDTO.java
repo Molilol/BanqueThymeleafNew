@@ -29,14 +29,17 @@ public class ClientDTO {
         this.name = name;
     }
 
-   public String TotalAllAccount() {
+   public Double totalAllAccount() {
         Double calculAllTotal = 0.0;
         for (AccountDTO accountDTO : accountClient) {
             calculAllTotal += accountDTO.getTotal();
         }
-        DecimalFormat formatter = new DecimalFormat("#,###.00");
+       return calculAllTotal;
+    }
 
-        return formatter.format(calculAllTotal);
+    public String totalAllAccountFormat(){
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(totalAllAccount());
     }
 
     public List<AccountDTO> getAccountClient() {

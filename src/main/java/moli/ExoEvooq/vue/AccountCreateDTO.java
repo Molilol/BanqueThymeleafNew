@@ -6,6 +6,8 @@ public class AccountCreateDTO {
 
     Double somme;
 
+    String devise;
+
     public String getClientId() {
         return clientId;
     }
@@ -20,5 +22,13 @@ public class AccountCreateDTO {
 
     public void setSomme(Double somme) {
         this.somme = somme;
+    }
+
+    public String getDevise() {
+        return devise;
+    }
+
+    public void setDevise(String devise) {
+        this.devise = devise;
     }
 }

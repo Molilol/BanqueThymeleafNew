@@ -8,6 +8,7 @@ import moli.ExoEvooq.vue.AccountDTO;
 import moli.ExoEvooq.vue.ClientDTO;
 import moli.ExoEvooq.vue.OperationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -53,6 +54,14 @@ public class WrapperEntityToDTO {
                 operationEntity.getMontant(),
                 operationEntity.getDate()
                 );
+    }
+
+    public List <OperationDTO> operationEntityPageToOperationDTOList (Page<OperationEntity> operationEntityPage) {
+        List <OperationDTO> operationDTOList = new ArrayList<>();
+        for (OperationEntity operationEntity : operationEntityPage) {
+            operationDTOList.add(operationEntityToOperationDTO(operationEntity));
+        }
+        return operationDTOList;
     }
 
     public List<OperationDTO> operationEntitySetToOperationDTOList(Set<OperationEntity> operationEntityList) {

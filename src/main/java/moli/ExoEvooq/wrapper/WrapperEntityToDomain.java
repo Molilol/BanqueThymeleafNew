@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class WrapperEntityToDomain {
 
-    public Client ClientEntityToDomain(ClientEntity clientEntity) {
+    public Client clientEntityToDomain(ClientEntity clientEntity) {
         List<Account> accountList = new ArrayList<>();
         for (AccountEntity accountEntity : clientEntity.getAccounts()) {
             accountList.add(accountEntityToAccountDomain(accountEntity, clientEntity));
@@ -26,6 +26,14 @@ public class WrapperEntityToDomain {
                 accountList,
                 clientEntity.getDate());
         return client;
+    }
+
+    public List <Client> clientEntitySetToClientDomainList(List <ClientEntity> clientEntityList) {
+        List <Client> clientDomainList = new ArrayList<>();
+        for (ClientEntity clientEntity : clientEntityList) {
+            clientDomainList.add(clientEntityToDomain(clientEntity));
+        }
+        return clientDomainList;
     }
 
     public Account accountEntityToAccountDomain(AccountEntity accountEntity, ClientEntity clientEntity) {

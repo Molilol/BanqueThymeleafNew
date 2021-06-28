@@ -1,6 +1,10 @@
 package moli.ExoEvooq.infrastructure;
 
 import moli.ExoEvooq.infrastructure.persistance.OperationEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -13,6 +17,8 @@ public interface OperationRepoHibernate extends CrudRepository<OperationEntity, 
     List<OperationEntity> findByAccountId(String accountId);
 
     OperationEntity save(OperationEntity operationEntity);
+
+    Page<OperationEntity> findByAccountId(String accountId, Pageable pageable);
 
 
 }
